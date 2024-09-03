@@ -63,7 +63,8 @@ export const authResolvers = {
         );
         res.cookie("accessToken", token, {
           httpOnly: true,
-          maxAge: age,
+          sameSite: "none",
+          expires: age,
           secure: process.env.NODE_ENV === "production" ? true : false,
         });
 
