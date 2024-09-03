@@ -1,0 +1,77 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Users {
+  id        String     @id @default(uuid())
+  name      String
+  email     String     @unique
+  img       String?
+  password  String
+  posts     Posts[]
+  likes     Likes[]
+  comments  Comments[]
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+}
+
+model Posts {
+  id         String         @id @default(uuid())
+  title      String
+  desc       String
+  img        String?
+  usersId    String
+  Users      Users          @relation(fields: [usersId], references: [id], onDelete: Cascade)
+  categories PostCategory[] // Use the join table model
+  likes      Likes[]
+  comments   Comments[]
+  createdAt  DateTime       @default(now())
+  updatedAt  DateTime       @updatedAt
+}
+
+model Category {
+  id        String         @id @default(uuid())
+  title     String
+  posts     PostCategory[] // Use the join table model
+  createdAt DateTime       @default(now())
+  updatedAt DateTime       @updatedAt
+}
+
+// Join table for many-to-many relationship
+model PostCategory {
+  postId     String
+  categoryId String
+  Post       Posts    @relation(fields: [postId], references: [id], onDelete: Cascade)
+  Category   Category @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+
+  @@id([postId, categoryId])
+}
+
+model Likes {
+  id        String   @id @default(uuid())
+  usersId   String
+  postsId   String
+  user      Users    @relation(fields: [usersId], references: [id])
+  post      Posts    @relation(fields: [postsId], references: [id])
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Comments {
+  id        String   @id @default(uuid())
+  title     String
+  user      Users    @relation(fields: [usersId], references: [id])
+  usersId   String
+  post      Posts    @relation(fields: [postsId], references: [id])
+  postsId   String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
