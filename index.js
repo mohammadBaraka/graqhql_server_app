@@ -30,7 +30,10 @@ app.use(
 // CORS
 app.use(
   cors({
-    origin: "http://localhost:3000",
+    origin: [
+      "http://localhost:3000",
+      "https://graphql-client-n6hz8r9e1-mohammadbarakas-projects.vercel.app",
+    ],
     credentials: true,
   })
 );
