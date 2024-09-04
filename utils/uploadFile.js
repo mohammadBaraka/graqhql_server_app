@@ -1,7 +1,8 @@
 import { __dirname } from "../index.js";
-import { createWriteStream } from "fs";
+import { createWriteStream, existsSync, mkdirSync } from "fs";
 import { GraphQLError } from "graphql";
 import path from "path";
+
 export const uploadFile = async (img, context) => {
   try {
     const uploadFile = await img;
@@ -9,8 +10,14 @@ export const uploadFile = async (img, context) => {
     const { createReadStream, filename } = uploadFile.file;
 
     const newFile = `${Date.now()}_${filename}`;
-    if (!newFile) throw new Error("No file provided");
-    const filePath = path.join(__dirname, `/public/uploads/${newFile}`);
+    const uploadDir = path.join(__dirname, `/public/uploads/`);
+
+    // Check if the uploads directory exists, and if not, create it
+    if (!existsSync(uploadDir)) {
+      mkdirSync(uploadDir, { recursive: true });
+    }
+
+    const filePath = path.join(uploadDir, newFile);
     const stream = createReadStream();
     const out = createWriteStream(filePath);
     await stream.pipe(out);
