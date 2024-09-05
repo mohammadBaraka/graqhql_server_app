@@ -8,7 +8,6 @@ export const postTypeDefs = /* GraphQL */ `
     categories: [Category]
     usersId: String
     Users: User!
-
     createdAt: String
     updatedAt: String
   }
@@ -21,6 +20,7 @@ export const postTypeDefs = /* GraphQL */ `
   type Query {
     getAllPosts: [Post]
     getOnePost(id: String): Post
+    getPostByTitle(title: String): [Post]
   }
 
   type Mutation {
@@ -31,6 +31,16 @@ export const postTypeDefs = /* GraphQL */ `
       usersId: String
       categoryId: [String]
     ): Post
+
+    updatePost(
+      id: String
+      title: String
+      desc: String
+      img: Upload
+      usersId: String
+      categoryId: [String]
+    ): Post
+
     deletePost(id: String): String
   }
 `;

@@ -31,6 +31,6 @@ export const userTpedDefs = /* GraphQL */ `
   type Mutation {
     register(name: String, email: String, password: String, img: Upload): User
     login(input: LoginInputs): User
-    logout: String
+    logout: User
   }
 `;

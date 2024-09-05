@@ -63,7 +63,7 @@ export const authResolvers = {
         );
         res.cookie("accessToken", token, {
           httpOnly: true,
-          sameSite: "none",
+          // sameSite: "none",
           maxAge: age,
           secure: process.env.NODE_ENV === "production" ? true : false,
         });
@@ -81,14 +81,21 @@ export const authResolvers = {
       }
     },
     logout: async (_, {}, context) => {
+      const loggedInUser = checkAuth(context);
+
       try {
+        const user = await prisma.users.findMany({
+          where: {
+            id: loggedInUser?.id,
+          },
+        });
         context.res.clearCookie("accessToken", {
           httpOnly: true,
           sameSite: "none",
           path: "/",
           secure: true,
         });
-        return "user logout success";
+        return user[0];
       } catch (error) {
         throw new GraphQLError(error?.message);
       }
