@@ -11,6 +11,9 @@ export const postReaolvers = {
           orderBy: { createdAt: "desc" },
           include: {
             Users,
+            comments: {
+              include: { user: true },
+            },
             categories: {
               include: { Category: true },
             },
@@ -44,6 +47,7 @@ export const postReaolvers = {
           where: { id },
           include: {
             Users: true,
+            comments: true,
             categories: {
               include: {
                 Category: true, // Fetch related Category objects
@@ -84,7 +88,7 @@ export const postReaolvers = {
               create: categoryId.map((id) => ({ categoryId: id })), // Simplified to connect a single category
             },
           },
-          include: { Users: true },
+          include: { Users: true, comments: true, likes: true },
         });
 
         return post;

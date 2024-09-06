@@ -4,6 +4,8 @@ export const commentTypeDefs = /* GraphQL */ `
     title: String
     usersId: String
     postsId: String
+    user: User
+    post: Post
     createdAt: String
     updatedAt: String
   }

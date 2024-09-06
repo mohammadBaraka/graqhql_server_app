@@ -9,7 +9,7 @@ export const userTpedDefs = /* GraphQL */ `
     token: String
     # posts
     # likes
-    # comments
+    comments: [Comments]
     createdAt: String
     updatedAt: String
   }

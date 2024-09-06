@@ -6,7 +6,9 @@ export const commentResolvers = {
   Query: {
     getAllComments: async () => {
       try {
-        const comments = await prisma.comments.findMany({});
+        const comments = await prisma.comments.findMany({
+          include: { user: true, post: true },
+        });
         return comments;
       } catch (error) {
         throw new GraphQLError(error?.message);
