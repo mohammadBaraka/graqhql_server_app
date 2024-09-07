@@ -11,6 +11,7 @@ export const postReaolvers = {
           orderBy: { createdAt: "desc" },
           include: {
             Users,
+            likes: true,
             comments: {
               include: { user: true },
             },

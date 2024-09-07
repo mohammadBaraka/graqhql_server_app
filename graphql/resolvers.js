@@ -1,6 +1,7 @@
 import { authResolvers } from "./resolvers/auth.resolver.js";
 import { categoryResolvers } from "./resolvers/category.resolver.js";
 import { commentResolvers } from "./resolvers/comment.resolver.js";
+import { likeResolver } from "./resolvers/like.resolver.js";
 import { postReaolvers } from "./resolvers/post.resolver.js";
 import { userResolvers } from "./resolvers/user.resolver.js";
 
@@ -11,6 +12,7 @@ export const resolvers = {
     ...categoryResolvers.Query,
     ...postReaolvers.Query,
     ...commentResolvers.Query,
+    ...likeResolver.Query,
   },
   Mutation: {
     ...authResolvers.Mutation,
@@ -18,5 +20,6 @@ export const resolvers = {
     ...categoryResolvers.Mutation,
     ...postReaolvers.Mutation,
     ...commentResolvers.Mutation,
+    ...likeResolver.Mutation,
   },
 };

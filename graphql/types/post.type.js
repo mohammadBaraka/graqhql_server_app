@@ -8,7 +8,7 @@ export const postTypeDefs = /* GraphQL */ `
     categories: [Category]
     usersId: String
     Users: User!
-    # likes:[]
+    likes: [Likes]
     comments: [Comments]
     createdAt: String
     updatedAt: String
