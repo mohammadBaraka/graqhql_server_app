@@ -23,6 +23,7 @@ export const postTypeDefs = /* GraphQL */ `
     getAllPosts: [Post]
     getOnePost(id: String): Post
     getPostByTitle(title: String): [Post]
+    getPostByCategory(id: String): [Post]
   }
 
   type Mutation {

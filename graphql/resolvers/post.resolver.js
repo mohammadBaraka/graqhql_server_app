@@ -15,11 +15,15 @@ export const postReaolvers = {
               include: { user: true },
             },
             categories: {
-              include: { Category: true },
+              include: {
+                Category: true,
+              },
             },
           },
         });
+
         if (!posts.length) throw new GraphQLError("There is no posts to show!");
+
         return posts;
       } catch (error) {
         throw new GraphQLError(error?.message);
@@ -50,7 +54,7 @@ export const postReaolvers = {
             comments: true,
             categories: {
               include: {
-                Category: true, // Fetch related Category objects
+                Category: true,
               },
             },
           },
@@ -65,8 +69,36 @@ export const postReaolvers = {
 
         return {
           ...post,
-          categories, // Replace categories with actual Category data
+          categories,
         };
+      } catch (error) {
+        throw new GraphQLError(error?.message);
+      }
+    },
+
+    getPostByCategory: async (_, { id }) => {
+      try {
+        const post = await prisma.posts.findMany({
+          where: {
+            categories: {
+              some: {
+                Category: {
+                  id,
+                },
+              },
+            },
+          },
+
+          include: {
+            Users: true,
+            comments: true,
+          },
+        });
+
+        if (!post) throw new GraphQLError("Post Not Found");
+
+        // Map the categories to return just the Category data, not PostCategory
+        return post;
       } catch (error) {
         throw new GraphQLError(error?.message);
       }
@@ -101,7 +133,6 @@ export const postReaolvers = {
       try {
         const user = checkAuth(context);
         const fileUrl = await uploadFile(img, context);
-        console.log(title, desc, fileUrl, categoryId);
         const post = await prisma.posts.update({
           where: { id },
           data: {

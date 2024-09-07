@@ -28,6 +28,21 @@ export const commentResolvers = {
         throw new GraphQLError(error?.message);
       }
     },
+    updateComment: async (_, { input }, context) => {
+      const { id, title, postsId } = input;
+      try {
+        const userId = checkAuth(context);
+        await prisma.comments.update({
+          where: {
+            id,
+          },
+          data: { title, usersId: userId?.id, postsId },
+        });
+        return "Comment updated successfully";
+      } catch (error) {
+        throw new GraphQLError(error?.message);
+      }
+    },
     deleteComment: async (_, { id }) => {
       try {
         await prisma.comments.delete({
