@@ -94,6 +94,7 @@ export const postReaolvers = {
             Users: true,
             comments: true,
           },
+          orderBy: { createdAt: "desc" },
         });
 
         if (!post) throw new GraphQLError("Post Not Found");
@@ -109,7 +110,7 @@ export const postReaolvers = {
     createPost: async (_, { title, desc, img, categoryId }, context) => {
       try {
         const user = checkAuth(context);
-        const fileUrl = await uploadFile(img, context);
+        const fileUrl = await uploadFile(img);
 
         const post = await prisma.posts.create({
           data: {
@@ -133,7 +134,7 @@ export const postReaolvers = {
     updatePost: async (_, { id, title, desc, img, categoryId }, context) => {
       try {
         const user = checkAuth(context);
-        const fileUrl = await uploadFile(img, context);
+        const fileUrl = await uploadFile(img);
         const post = await prisma.posts.update({
           where: { id },
           data: {

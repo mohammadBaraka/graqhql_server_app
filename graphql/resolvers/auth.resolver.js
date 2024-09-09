@@ -18,8 +18,7 @@ export const authResolvers = {
   Mutation: {
     register: async (_, { name, email, password, img }, context) => {
       try {
-        const file = await uploadFile(img, context);
-        console.log("🚀 ~ register: ~ uploadFile:", uploadFile);
+        const file = await uploadFile(img);
         const hashedPass = await bcrypt.hash(password, 10);
         const userEmail = await prisma.users.findUnique({
           where: { email },
