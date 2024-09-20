@@ -93,6 +93,7 @@ export const postReaolvers = {
           include: {
             Users: true,
             comments: true,
+            likes: true,
           },
           orderBy: { createdAt: "desc" },
         });

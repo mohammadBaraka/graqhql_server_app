@@ -7,8 +7,8 @@ export const userTpedDefs = /* GraphQL */ `
     img: String!
     password: String
     token: String
-    # posts
-    # likes
+    posts: [Post]
+    likes: [Likes]
     comments: [Comments]
     createdAt: String
     updatedAt: String

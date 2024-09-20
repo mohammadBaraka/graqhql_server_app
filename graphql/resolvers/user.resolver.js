@@ -17,6 +17,14 @@ export const userResolvers = {
           where: {
             id,
           },
+          include: {
+            posts: {
+              include: {
+                comments: true,
+                likes: true,
+              },
+            },
+          },
         });
 
         if (!user.length) throw new GraphQLError("There is no user to show");
